@@ -1,5 +1,5 @@
 // true dual port RAM, sync
-module versatile_fifo_dual_port_ram_dc_2w
+module versatile_fifo_dual_port_ram_`TYPE
   (
    // A side
    d_a,
@@ -12,7 +12,7 @@ module versatile_fifo_dual_port_ram_dc_2w
    clk_a,
 `endif
    // B side
-   q_b 
+   q_b,
    adr_b,
 `ifdef DW 
    d_b, 
@@ -28,13 +28,13 @@ module versatile_fifo_dual_port_ram_dc_2w
    parameter DATA_WIDTH = 8;
    parameter ADDR_WIDTH = 9;
    
-   input [(DATA_WIDTH-1):0]      data_a;
-   input [(ADDR_WIDTH-1):0] 	 addr_a;
-   input [(ADDR_WIDTH-1):0] 	 addr_b;
+   input [(DATA_WIDTH-1):0]      d_a;
+   input [(ADDR_WIDTH-1):0] 	 adr_a;
+   input [(ADDR_WIDTH-1):0] 	 adr_b;
    input 			 we_a;
-   output reg [(DATA_WIDTH-1):0] q_b;
+   output [(DATA_WIDTH-1):0] 	 q_b;
 `ifdef DW
-   input [(DATA_WIDTH-1):0] 	 data_b;
+   input [(DATA_WIDTH-1):0] 	 d_b;
    output reg [(DATA_WIDTH-1):0] q_a;
    input 			 we_b;
 `endif
@@ -42,6 +42,12 @@ module versatile_fifo_dual_port_ram_dc_2w
    input 			 clk_a, clk_b;
 `else
    input 			 clk;   
+`endif
+
+`ifndef DW
+   reg [(ADDR_WIDTH-1):0] 	 adr_b_reg;
+`else
+   reg [(DATA_WIDTH-1):0] 	 q_b;   
 `endif
    
    // Declare the RAM variable
@@ -56,19 +62,19 @@ module versatile_fifo_dual_port_ram_dc_2w
      begin // Port A
 	if (we_a)
 	  begin
-	     ram[addr_a] <= data_a;
-	     q_a <= data_a;
+	     ram[adr_a] <= d_a;
+	     q_a <= d_a;
 	  end
 	else
-	  q_a <= ram[addr_a];
+	  q_a <= ram[adr_a];
      end 
 `else
    if (we_a)
-     ram[addr_a] <= data_a;
+     ram[adr_a] <= d_a;
 `endif
 	
 `ifdef DC   
-   always @ (posedge clk_a)
+   always @ (posedge clk_b)
 `else
    always @ (posedge clk)
 `endif
@@ -76,14 +82,16 @@ module versatile_fifo_dual_port_ram_dc_2w
      begin // Port b
 	if (we_b)
 	  begin
-	     ram[addr_b] <= data_b;
-	     q_b <= data_b;
+	     ram[adr_b] <= d_b;
+	     q_b <= d_b;
 	  end
 	else
-	  q_b <= ram[addr_b];
+	  q_b <= ram[adr_b];
      end
 `else // !`ifdef DW
-   q_b <= ram[addr_b];
+   adr_b_reg <= adr_b;   
+   
+   assign q_b = ram[adr_b_reg];
 `endif // !`ifdef DW
    
 endmodule // true_dual_port_ram_sync
