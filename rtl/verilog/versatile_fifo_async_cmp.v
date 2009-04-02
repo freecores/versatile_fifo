@@ -1,6 +1,6 @@
 module versatile_fifo_async_cmp ( wptr, rptr, fifo_empty, fifo_full, wclk, rclk, rst );
 
-   parameter ADDR_WIDTH = 6;   
+   parameter ADDR_WIDTH = 4;   
    parameter N = ADDR_WIDTH-1;
 
    parameter Q1 = 2'b00;

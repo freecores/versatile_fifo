@@ -16,3 +16,7 @@ gray_counter:
 	vpp versatile_counter.v > tmp1.v
 	vppp --simple tmp1.v | cat copyright.v - > gray_counter.v
 
+sd:
+	cp sd_counter_defines.v versatile_counter_defines.v
+	vpp versatile_counter.v > tmp1.v
+	vppp --simple tmp1.v | cat copyright.v - > sd_counter.v

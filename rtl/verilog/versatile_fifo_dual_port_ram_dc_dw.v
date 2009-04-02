@@ -12,7 +12,7 @@ module versatile_fifo_dual_port_ram_dc_dw
    clk_b
    );
    parameter DATA_WIDTH = 8;
-   parameter ADDR_WIDTH = 9;
+   parameter ADDR_WIDTH = 11;
    input [(DATA_WIDTH-1):0]      d_a;
    input [(ADDR_WIDTH-1):0] 	 adr_a;
    input [(ADDR_WIDTH-1):0] 	 adr_b;
