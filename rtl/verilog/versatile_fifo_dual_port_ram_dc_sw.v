@@ -1,4 +1,4 @@
-module versatile_fifo_dual_port_ram_dc_sw
+module vfifo_dual_port_ram_dc_sw
   (
    d_a,
    adr_a, 

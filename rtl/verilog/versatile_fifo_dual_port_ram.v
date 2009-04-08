@@ -1,5 +1,5 @@
 // true dual port RAM, sync
-module versatile_fifo_dual_port_ram_`TYPE
+module vfifo_dual_port_ram_`TYPE
   (
    // A side
    d_a,

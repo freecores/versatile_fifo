@@ -175,12 +175,12 @@ module sd_fifo
 		      {sd_adr_i,wadr4};
    
    
-   versatile_fifo_dual_port_ram_dc_dw
-     #
+   vfifo_dual_port_ram_dc_dw
+/*     #
      (
       .ADDR_WIDTH(11),
       .DATA_WIDTH(8)
-      )
+      )*/
      dpram
      (
       .d_a(wb_dat_i),
