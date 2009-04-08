@@ -23,7 +23,7 @@ module sd_fifo
    wire 	 dpram_we_a, dpram_we_b;
    wire [10:0] 	 dpram_a_a, dpram_a_b;   
 
-   sd_counter wptr1
+   sd_counter wptr1_cnt
      (
       .q(wptr1),
       .q_bin(wadr1),
@@ -32,7 +32,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter rptr1
+   sd_counter rptr1_cnt
      (
       .q(rptr1),
       .q_bin(radr1),
@@ -57,7 +57,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter wptr2
+   sd_counter wptr2_cnt
      (
       .q(wptr2),
       .q_bin(wadr2),
@@ -66,7 +66,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter rptr2
+   sd_counter rptr2_cnt
      (
       .q(rptr2),
       .q_bin(radr2),
@@ -91,7 +91,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter wptr3
+   sd_counter wptr3_cnt
      (
       .q(wptr3),
       .q_bin(wadr3),
@@ -100,7 +100,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter rptr3
+   sd_counter rptr3_cnt
      (
       .q(rptr3),
       .q_bin(radr3),
@@ -125,7 +125,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter wptr4
+   sd_counter wptr4_cnt
      (
       .q(wptr4),
       .q_bin(wadr4),
@@ -134,7 +134,7 @@ module sd_fifo
       .rst(rst)
       );
 
-   sd_counter rptr4
+   sd_counter rptr4_cnt
      (
       .q(rptr4),
       .q_bin(radr4),
