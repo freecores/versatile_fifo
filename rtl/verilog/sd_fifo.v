@@ -70,7 +70,7 @@ module sd_fifo
      (
       .q(rptr2),
       .q_bin(radr2),
-      .cke((wb_adr_i==2'd1) & wb_re_i & !fifo_empty[1]),
+      .cke((wb_adr_i==2'd1) & wb_re_i & !fifo_empty[2]),
       .clk(wb_clk),
       .rst(rst)
       );
