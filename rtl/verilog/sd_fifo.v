@@ -171,7 +171,7 @@ module sd_fifo
 		      {wb_adr_i,radr4};
    assign dpram_a_b = (sd_adr_i==2'd0) ? {sd_adr_i,radr1} :
 		      (sd_adr_i==2'd1) ? {sd_adr_i,wadr2} :
-		      (sd_adr_i==2'd3) ? {sd_adr_i,radr3} :
+		      (sd_adr_i==2'd2) ? {sd_adr_i,radr3} :
 		      {sd_adr_i,wadr4};
    
    
