@@ -60,13 +60,9 @@ module vfifo_dual_port_ram_`TYPE
 `endif
 `ifdef DW
      begin // Port A
+	q_a <= ram[adr_a];
 	if (we_a)
-	  begin
 	     ram[adr_a] <= d_a;
-	     q_a <= d_a;
-	  end
-	else
-	  q_a <= ram[adr_a];
      end 
 `else
    if (we_a)
@@ -80,13 +76,9 @@ module vfifo_dual_port_ram_`TYPE
 `endif
 `ifdef DW
      begin // Port b
-	if (we_b)
-	  begin
-	     ram[adr_b] <= d_b;
-	     q_b <= d_b;
-	  end
-	else
 	  q_b <= ram[adr_b];
+	if (we_b)
+	  ram[adr_b] <= d_b;
      end
 `else // !`ifdef DW
    adr_b_reg <= adr_b;   

@@ -26,22 +26,14 @@ module vfifo_dual_port_ram_dc_dw
    reg [DATA_WIDTH-1:0] ram [2**ADDR_WIDTH-1:0] ;
    always @ (posedge clk_a)
      begin 
+	q_a <= ram[adr_a];
 	if (we_a)
-	  begin
 	     ram[adr_a] <= d_a;
-	     q_a <= d_a;
-	  end
-	else
-	  q_a <= ram[adr_a];
      end 
    always @ (posedge clk_b)
      begin 
-	if (we_b)
-	  begin
-	     ram[adr_b] <= d_b;
-	     q_b <= d_b;
-	  end
-	else
 	  q_b <= ram[adr_b];
+	if (we_b)
+	  ram[adr_b] <= d_b;
      end
 endmodule 
