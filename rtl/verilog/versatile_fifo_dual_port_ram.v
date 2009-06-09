@@ -25,8 +25,8 @@ module vfifo_dual_port_ram_`TYPE
 `endif
    );
    
-   parameter DATA_WIDTH = 8;
-   parameter ADDR_WIDTH = 9;
+   parameter DATA_WIDTH = `DATA_WIDTH;
+   parameter ADDR_WIDTH = `ADDR_WIDTH;
    
    input [(DATA_WIDTH-1):0]      d_a;
    input [(ADDR_WIDTH-1):0] 	 adr_a;
@@ -51,7 +51,7 @@ module vfifo_dual_port_ram_`TYPE
 `endif
    
    // Declare the RAM variable
-   reg [DATA_WIDTH-1:0] ram [2**ADDR_WIDTH-1:0] /*synthesis syn_ramstyle = "no_rw_check"*/;
+   reg [DATA_WIDTH-1:0] ram [(1<<ADDR_WIDTH)-1:0] /*synthesis syn_ramstyle = "no_rw_check"*/;
 
 `ifdef DC   
    always @ (posedge clk_a)
