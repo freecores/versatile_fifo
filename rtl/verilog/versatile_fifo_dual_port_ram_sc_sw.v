@@ -7,8 +7,8 @@ module vfifo_dual_port_ram_sc_sw
    adr_b,
    clk
    );
-   parameter DATA_WIDTH = 8;
-   parameter ADDR_WIDTH = 9;
+   parameter DATA_WIDTH = `DATA_WIDTH;
+   parameter ADDR_WIDTH = `ADDR_WIDTH;
    input [(DATA_WIDTH-1):0]      d_a;
    input [(ADDR_WIDTH-1):0] 	 adr_a;
    input [(ADDR_WIDTH-1):0] 	 adr_b;
@@ -16,7 +16,7 @@ module vfifo_dual_port_ram_sc_sw
    output [(DATA_WIDTH-1):0] 	 q_b;
    input 			 clk;   
    reg [(ADDR_WIDTH-1):0] 	 adr_b_reg;
-   reg [DATA_WIDTH-1:0] ram [2**ADDR_WIDTH-1:0] ;
+   reg [DATA_WIDTH-1:0] ram [(1<<ADDR_WIDTH)-1:0] ;
    always @ (posedge clk)
    if (we_a)
      ram[adr_a] <= d_a;

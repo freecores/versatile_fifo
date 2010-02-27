@@ -1,22 +1,21 @@
 dual_port_ram:
-	vppp +define+TYPE+"sc_sw" --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_sc_sw.v
-	vppp +define+TYPE+"sc_dw" +define+DW --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_sc_dw.v
-	vppp +define+TYPE+"dc_sw" +define+DC --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_dc_sw.v
-	vppp +define+TYPE+"dc_dw" +define+DC +define+DW --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_dc_dw.v
+	vppreproc +define+TYPE+"sc_sw" --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_sc_sw.v
+	vppreproc +define+TYPE+"sc_dw" +define+DW --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_sc_dw.v
+	vppreproc +define+TYPE+"dc_sw" +define+DC --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_dc_sw.v
+	vppreproc +define+TYPE+"dc_dw" +define+DC +define+DW --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_dc_dw.v
 
 svn_export_versatile_counter:
-	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/copyright.v
-	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/lfsr_polynom.v
-	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/versatile_counter.v
+	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/CSV.class.php
+	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/versatile_counter_generator.php
 
 export: svn_export_versatile_counter
 
 gray_counter:
-	cp gray_counter_defines.v versatile_counter_defines.v
-	vpp versatile_counter.v > tmp1.v
-	vppp --simple tmp1.v | cat copyright.v - > gray_counter.v
+	excel2csv gray_counter.xls -S ,
+	./versatile_counter_generator.php gray_counter.csv > gray_counter.v
 
 sd:
-	cp sd_counter_defines.v versatile_counter_defines.v
-	vpp versatile_counter.v > tmp1.v
-	vppp --simple tmp1.v | cat copyright.v - > sd_counter.v
+	excel2csv sd_counter.xls -S ,
+	./versatile_counter_generator.php sd_counter.csv > sd_counter.v
+
+all: dual_port_ram export gray_counter gray_counter sd
