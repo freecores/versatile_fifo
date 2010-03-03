@@ -25,8 +25,8 @@ module vfifo_dual_port_ram_`TYPE
 `endif
    );
    
-   parameter DATA_WIDTH = `DATA_WIDTH;
-   parameter ADDR_WIDTH = `ADDR_WIDTH;
+   parameter DATA_WIDTH = 32;
+   parameter ADDR_WIDTH = 8;
    
    input [(DATA_WIDTH-1):0]      d_a;
    input [(ADDR_WIDTH-1):0] 	 adr_a;
