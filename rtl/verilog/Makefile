@@ -18,4 +18,11 @@ sd:
 	excel2csv sd_counter.xls -S ,
 	./versatile_counter_generator.php sd_counter.csv > sd_counter.v
 
+adr_gen:
+	excel2csv adr_gen.xls -S ,
+
+async_fifo_altera.v: adr_gen
+	./versatile_counter_generator.php adr_gen.csv > adr_gen.v
+	vppreproc +define+GENERATE_DIRECTION_AS_LATCH --simple ../../backend/altera/cycloneIV/dff_sr.v adr_gen.v versatile_fifo_dual_port_ram_dc_sw.v versatile_fifo_async_cmp.v async_fifo_top.v > async_fifo_altera.v
+
 all: dual_port_ram export gray_counter gray_counter sd
