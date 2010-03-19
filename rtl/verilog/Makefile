@@ -25,4 +25,7 @@ async_fifo_altera.v: adr_gen
 	./versatile_counter_generator.php adr_gen.csv > adr_gen.v
 	vppreproc +define+GENERATE_DIRECTION_AS_LATCH --simple ../../backend/altera/cycloneIV/dff_sr.v adr_gen.v versatile_fifo_dual_port_ram_dc_sw.v versatile_fifo_async_cmp.v async_fifo_top.v > async_fifo_altera.v
 
+async_fifo_mq: gray_counter
+	vppreproc --simple gray_counter.v 
+
 all: dual_port_ram export gray_counter gray_counter sd
