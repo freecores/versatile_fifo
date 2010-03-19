@@ -1,6 +1,6 @@
-// async FIFO with multiple queues
+// async FIFO with multiple queues, multiple data
 
-module async_fifo_mq (
+module async_fifo_mq_md (
     d, fifo_full, write, clk1, rst1,
     q, fifo_empty, read, clk2, rst2
 );
@@ -10,7 +10,7 @@ parameter a_lo_size = 4;
 parameter nr_of_queues = 16;
 parameter data_width = 36;
 
-input [data_width-1:0] d;
+input [data_width*nr_of_queues-1:0] d;
 output [0:nr_of_queues-1] fifo_full;
 input  [0:nr_of_queues-1] write;
 input clk1;
@@ -95,9 +95,24 @@ begin
     end
 end
 
+// and-or mux write data
+generate
+    for (i=0;i<nr_of_queues;i=i+1) begin : vector2array
+        assign wdataa[i] = d[(nr_of_queues-i)*data_width-1:(nr_of_queues-1-i)*data_width];
+    end
+endgenerate
+
+always @*
+begin
+    wdata = {data_width{1'b0}};
+    for (l=0;l<nr_of_queues;l=l+1) begin
+        wdata = (wdataa[l] & {data_width{write[l]}}) | wdata;
+    end
+end
+
 vfifo_dual_port_ram_dc_sw # ( .DATA_WIDTH(data_width), .ADDR_WIDTH(a_hi_size+a_lo_size))
     dpram (
-    .d_a(d),
+    .d_a(wdata),
     .adr_a({onehot2bin(write),wadr}), 
     .we_a(|(write)),
     .clk_a(clk1),
