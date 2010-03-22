@@ -1,8 +1,8 @@
 // async FIFO with multiple queues
 
 module async_fifo_mq (
-    d, fifo_full, write, clk1, rst1,
-    q, fifo_empty, read, clk2, rst2
+    d, fifo_full, write, write_enable, clk1, rst1,
+    q, fifo_empty, read, read_enable, clk2, rst2
 );
 
 parameter a_hi_size = 4;
@@ -12,13 +12,15 @@ parameter data_width = 36;
 
 input [data_width-1:0] d;
 output [0:nr_of_queues-1] fifo_full;
-input  [0:nr_of_queues-1] write;
+input                     write;
+input  [0:nr_of_queues-1] write_enable;
 input clk1;
 input rst1;
 
 output [data_width-1:0] q;
 output [0:nr_of_queues-1] fifo_empty;
-inout  [0:nr_of_queues-1] read;
+input                     read;
+input  [0:nr_of_queues-1] read_enable;
 input clk2;
 input rst2;
 
@@ -50,14 +52,14 @@ generate
     for (i=0;i<nr_of_queues;i=i+1) begin : fifo_adr
         
         gray_counter wadrcnt (
-            .cke(write[i]),
+            .cke(write & write_enable[i]),
             .q(fifo_wadr_gray[i]),
             .q_bin(fifo_wadr_bin[i]),
             .rst(rst1),
             .clk(clk1));
         
         gray_counter radrcnt (
-            .cke(read[i]),
+            .cke(read & read_enable[i]),
             .q(fifo_radr_gray[i]),
             .q_bin(fifo_radr_bin[i]),
             .rst(rst2),
@@ -82,7 +84,7 @@ always @*
 begin
     wadr = {a_lo_size{1'b0}};
     for (j=0;j<nr_of_queues;j=j+1) begin
-        wadr = (fifo_wadr_bin[j] & {a_lo_size{write[j]}}) | wadr;
+        wadr = (fifo_wadr_bin[j] & {a_lo_size{write_enable[j]}}) | wadr;
     end
 end
 
@@ -91,18 +93,18 @@ always @*
 begin
     radr = {a_lo_size{1'b0}};
     for (k=0;k<nr_of_queues;k=k+1) begin
-        radr = (fifo_radr_bin[k] & {a_lo_size{read[k]}}) | radr;
+        radr = (fifo_radr_bin[k] & {a_lo_size{read_enable[k]}}) | radr;
     end
 end
 
 vfifo_dual_port_ram_dc_sw # ( .DATA_WIDTH(data_width), .ADDR_WIDTH(a_hi_size+a_lo_size))
     dpram (
     .d_a(d),
-    .adr_a({onehot2bin(write),wadr}), 
-    .we_a(|(write)),
+    .adr_a({onehot2bin(write_enable),wadr}), 
+    .we_a(write),
     .clk_a(clk1),
     .q_b(q),
-    .adr_b({onehot2bin(read),radr}),
+    .adr_b({onehot2bin(read_enable),radr}),
     .clk_b(clk2) );
 
 endmodule
