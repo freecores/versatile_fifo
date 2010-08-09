@@ -1,3 +1,8 @@
+// true dual port RAM, sync
+
+`ifdef ACTEL
+	`define SYN /*synthesis syn_ramstyle = "no_rw_check"*/
+`endif
 module vfifo_dual_port_ram_dc_sw
   (
    d_a,

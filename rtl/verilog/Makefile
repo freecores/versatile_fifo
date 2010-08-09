@@ -28,4 +28,4 @@ async_fifo_altera.v: adr_gen
 async_fifo_mq: gray_counter
 	vppreproc --simple gray_counter.v 
 
-all: dual_port_ram export gray_counter gray_counter sd
+all: export gray_counter gray_counter sd

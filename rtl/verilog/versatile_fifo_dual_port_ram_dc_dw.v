@@ -1,3 +1,8 @@
+// true dual port RAM, sync
+
+`ifdef ACTEL
+	`define SYN /*synthesis syn_ramstyle = "no_rw_check"*/
+`endif
 module vfifo_dual_port_ram_dc_dw
   (
    d_a,
@@ -23,7 +28,7 @@ module vfifo_dual_port_ram_dc_dw
    input 			 we_b;
    input 			 clk_a, clk_b;
    reg [(DATA_WIDTH-1):0] 	 q_b;   
-   reg [DATA_WIDTH-1:0] ram [(1<<ADDR_WIDTH)-1:0] ;
+   reg [DATA_WIDTH-1:0] ram [(1<<ADDR_WIDTH)-1:0] `SYN;
    always @ (posedge clk_a)
      begin 
 	q_a <= ram[adr_a];
