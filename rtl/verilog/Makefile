@@ -4,10 +4,6 @@ dual_port_ram:
 	vppreproc +define+TYPE+"dc_sw" +define+DC --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_dc_sw.v
 	vppreproc +define+TYPE+"dc_dw" +define+DC +define+DW --simple versatile_fifo_dual_port_ram.v > versatile_fifo_dual_port_ram_dc_dw.v
 
-svn_export_versatile_counter:
-	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/CSV.class.php
-	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/versatile_counter_generator.php
-
 export: svn_export_versatile_counter
 
 gray_counter:
@@ -27,5 +23,12 @@ async_fifo_altera.v: adr_gen
 
 async_fifo_mq: gray_counter
 	vppreproc --simple gray_counter.v 
+
+async_fifo_dw_simplex_actel.v: adr_gen
+	vppreproc +define+GENERATE_DIRECTION_AS_LATCH +define+ACTEL --simple adr_gen.v versatile_fifo_dual_port_ram_dc_dw.v dff_sr.v versatile_fifo_async_cmp.v async_fifo_dw_simplex_top.v > async_fifo_dw_simplex_actel.v
+
+svn_export_versatile_counter:
+	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/CSV.class.php
+	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/versatile_counter_generator.php
 
 all: export gray_counter gray_counter sd

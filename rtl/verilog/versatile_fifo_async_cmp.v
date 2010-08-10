@@ -57,8 +57,13 @@ module versatile_fifo_async_cmp ( wptr, rptr, fifo_empty, fifo_full, wclk, rclk,
    output reg	fifo_empty;
    output       fifo_full;
    input 	wclk, rclk, rst;   
-   
+
+`ifndef GENERATE_DIRECTION_AS_LATCH   
    wire direction;
+`endif
+`ifdef GENERATE_DIRECTION_AS_LATCH
+   reg direction;
+`endif
    reg 	direction_set, direction_clr;
    
    wire async_empty, async_full;

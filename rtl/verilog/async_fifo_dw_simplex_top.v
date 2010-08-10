@@ -36,7 +36,7 @@ input                   b_rst;
 wire [addr_width:1] a_wadr, a_wadr_bin, a_radr, a_radr_bin;
 wire [addr_width:1] b_wadr, b_wadr_bin, b_radr, b_radr_bin;
 // dpram
-wire [addr_width:1] a_dpram_adr, b_dpram_adr;
+wire [addr_width:0] a_dpram_adr, b_dpram_adr;
 
 adr_gen
     # ( .length(addr_width))
@@ -55,11 +55,11 @@ adr_gen
     fifo_b_rd_adr( .cke(b_rd), .q(b_radr), .q_bin(b_radr_bin), .rst(b_rst), .clk(b_rst));
 
 // mux read or write adr to DPRAM
-assign a_dpram_adr = (a_wr) ? a_wadr_bin : a_radr_bin;
-assign b_dpram_adr = (b_wr) ? b_wadr_bin : b_radr_bin;
+assign a_dpram_adr = (a_wr) ? {1'b0,a_wadr_bin} : {1'b1,a_radr_bin};
+assign b_dpram_adr = (b_wr) ? {1'b1,b_wadr_bin} : {1'b0,b_radr_bin};
 
 vfifo_dual_port_ram_dc_dw
-    # (.DATA_WIDTH(data_width), .ADDR_WIDTH(addr_width))
+    # (.DATA_WIDTH(data_width), .ADDR_WIDTH(addr_width+1))
     dpram ( .d_a(a_d), .q_a(a_q), .adr_a(a_dpram_adr), .we_a(a_wr), .clk_a(a_clk), 
             .d_b(b_d), .q_b(b_q), .adr_b(b_dpram_adr), .we_b(b_wr), .clk_b(b_clk));
 
