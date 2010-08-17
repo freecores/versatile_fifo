@@ -25,7 +25,7 @@ async_fifo_mq: gray_counter
 	vppreproc --simple gray_counter.v 
 
 async_fifo_dw_simplex_actel.v: adr_gen
-	vppreproc +define+GENERATE_DIRECTION_AS_LATCH +define+ACTEL --simple adr_gen.v versatile_fifo_dual_port_ram_dc_dw.v dff_sr.v versatile_fifo_async_cmp.v async_fifo_dw_simplex_top.v > async_fifo_dw_simplex_actel.v
+	vppreproc +define+GENERATE_DIRECTION_AS_LATCH +define+ACTEL --noline adr_gen.v versatile_fifo_dual_port_ram_dc_dw.v dff_sr.v versatile_fifo_async_cmp.v async_fifo_dw_simplex_top.v > async_fifo_dw_simplex_actel.v
 
 svn_export_versatile_counter:
 	svn export http://opencores.org/ocsvn/versatile_counter/versatile_counter/trunk/rtl/verilog/CSV.class.php
