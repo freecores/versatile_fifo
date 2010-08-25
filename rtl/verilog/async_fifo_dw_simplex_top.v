@@ -44,7 +44,7 @@ adr_gen
     
 adr_gen
     # (.length(addr_width))
-    fifo_a_rd_adr( .cke(a_rd), .q(a_radr), .q_bin(a_radr_bin), .rst(a_rst), .clk(a_rst));
+    fifo_a_rd_adr( .cke(a_rd), .q(a_radr), .q_bin(a_radr_bin), .rst(a_rst), .clk(a_clk));
 
 adr_gen
     # ( .length(addr_width))
@@ -52,7 +52,7 @@ adr_gen
     
 adr_gen
     # (.length(addr_width))
-    fifo_b_rd_adr( .cke(b_rd), .q(b_radr), .q_bin(b_radr_bin), .rst(b_rst), .clk(b_rst));
+    fifo_b_rd_adr( .cke(b_rd), .q(b_radr), .q_bin(b_radr_bin), .rst(b_rst), .clk(b_clkt));
 
 // mux read or write adr to DPRAM
 assign a_dpram_adr = (a_wr) ? {1'b0,a_wadr_bin} : {1'b1,a_radr_bin};
