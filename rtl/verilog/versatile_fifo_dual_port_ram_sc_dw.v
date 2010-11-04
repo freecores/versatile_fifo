@@ -27,7 +27,7 @@ module vfifo_dual_port_ram_sc_dw
    input 			 we_b;
    input 			 clk;   
    reg [(DATA_WIDTH-1):0] 	 q_b;   
-   reg [DATA_WIDTH-1:0] ram [(1<<ADDR_WIDTH)-1:0] ;
+   reg [DATA_WIDTH-1:0] ram [(1<<ADDR_WIDTH)-1:0] `SYN;
    always @ (posedge clk)
      begin 
 	q_a <= ram[adr_a];
